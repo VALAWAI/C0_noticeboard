@@ -14,26 +14,26 @@ channels:
     valawai.c0.noticeboard.data.notices:
         description: Receive the notices to be shown on the board.
         subscribe:
-            summary: The infomraiton of the generated person
+            summary: A notice to publish on the board.
             message:
                 $ref: '#/components/messages/notice'
 
     valawai.c0.noticeboard.control.enable:
-        description: Activate or disactiva the board.
+        description: Activate or inactive the board.
         subscribe:
-            summary: The activation/disactivation of this component
+            summary: The activation/inactivation of this component
             message:
                 $ref: '#/components/messages/enable'
 
     valawai.c0.noticeboard.control.clear:
-        description: Remove all the notice from the board.
+        description: Remove all the notices from the board.
         subscribe:
-            summary: Wehn this message is received it clear all the notices of the board.
+            summary: When this message is received it clears all the notices from the board.
 
     valawai.c0.noticeboard.data.status:
         description: Publish the status of the component every time it has changed.
         publish:
-            summary: The status informaiton of the component
+            summary: The status information of the component
             message:
                 $ref: '#/components/messages/currentComponentStatus'
                 
@@ -47,10 +47,10 @@ components:
 
         enable:
             name: enable
-            title: Activate or disactivate this component.
+            title: Enable or disable this component.
             payload:
                 type: boolean
-                description: If it is true it enables the service if is false it disable the service
+                description: If it is true it enables this component, or if it is false it disables this component.
                 examples:
                  - true
 
@@ -79,18 +79,18 @@ components:
                     - This is to inform all the students that our school is going to publish its annual magazine next month. All those who wish to contribute can mail their entries to xyzmagazine@gmail.com. 
                 time:
                   type: integer
-                  description: The epoch time in secods when this notice is published.
+                  description: The epoch time in seconds when this notice is published.
                   min: 0
                   examples:
                     - 1690201621
                                         
         componentStatus:
             type: object
-            description: The current status of this componenet
+            description: The current status of this component
             properties:
               enabled:
                 type: boolean
-                description: If it is true it enables the service if is false it disable the service
+                description: If it is true this component is enabled, or false if it is disabled.
                 examples:
                  - false
               notices:
