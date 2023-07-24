@@ -1,0 +1,100 @@
+asyncapi: '2.6.0'
+info:
+    title: VALAWAI C0 Noticeboard
+    version: '0.1.0'
+    description: |
+        This C0 component is used to publish notices that can be seen on a web page.
+    license:
+        name: MIT
+        url: https://opensource.org/license/mit/
+
+defaultContentType: application/json
+
+channels:
+    valawai.c0.noticeboard.data.notices:
+        description: Receive the notices to be shown on the board.
+        subscribe:
+            summary: The infomraiton of the generated person
+            message:
+                $ref: '#/components/messages/notice'
+
+    valawai.c0.noticeboard.control.enable:
+        description: Activate or disactiva the board.
+        subscribe:
+            summary: The activation/disactivation of this component
+            message:
+                $ref: '#/components/messages/enable'
+
+    valawai.c0.noticeboard.control.clear:
+        description: Remove all the notice from the board.
+        subscribe:
+            summary: Wehn this message is received it clear all the notices of the board.
+
+    valawai.c0.noticeboard.data.status:
+        description: Publish the status of the component every time it has changed.
+        publish:
+            summary: The status informaiton of the component
+            message:
+                $ref: '#/components/messages/currentComponentStatus'
+                
+components:
+    messages:
+        notice:
+            name: notice
+            title: A notice that has to be visible on the board.
+            payload:
+                $ref: "#/components/schemas/notice"
+
+        enable:
+            name: enable
+            title: Activate or disactivate this component.
+            payload:
+                type: boolean
+                description: If it is true it enables the service if is false it disable the service
+                examples:
+                 - true
+
+        currentComponentStatus:
+            name: currentComponentStatus
+            title: The status of this component.
+            payload:
+                $ref: "#/components/schemas/componentStatus"
+        
+    schemas:
+        notice:
+            type: object
+            properties:
+                title:
+                  type: string
+                  description: The notice title.
+                  minLength: 3
+                  maxLength: 1000
+                  examples:
+                    - Call for submissions
+                content:
+                  type: string
+                  description: The notice content.
+                  maxLength: 10000
+                  examples:
+                    - This is to inform all the students that our school is going to publish its annual magazine next month. All those who wish to contribute can mail their entries to xyzmagazine@gmail.com. 
+                time:
+                  type: integer
+                  description: The epoch time in secods when this notice is published.
+                  min: 0
+                  examples:
+                    - 1690201621
+                                        
+        componentStatus:
+            type: object
+            description: The current status of this componenet
+            properties:
+              enabled:
+                type: boolean
+                description: If it is true it enables the service if is false it disable the service
+                examples:
+                 - false
+              notices:
+                type: array
+                description: The notices that are on the board.
+                items:
+                  $ref: "#/components/schemas/notice"

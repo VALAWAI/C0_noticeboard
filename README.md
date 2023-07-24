@@ -1,2 +1,3 @@
 # C0_noticeboard
-Component used to show notices to users.
+
+C0 component used to show notices to users by a web board.
